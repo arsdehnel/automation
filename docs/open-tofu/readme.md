@@ -1,13 +1,13 @@
 # OpenTofu
 
-Reusable OpenTofu modules and the workflow for running them across the KAD Products organization. All modules use the GitHub provider (`integrations/github ~> 6.0`) and manage GitHub resources.
+Reusable OpenTofu modules and the workflow for running them across my arsdehnel workspace. All modules use the GitHub provider (`integrations/github ~> 6.0`) and manage GitHub resources.
 
 ## Modules
 
-| Module | Description |
-|---|---|
-| [github-repo](./github-repo.md) | Creates and configures a GitHub repository with standard settings, branch protection, and tag rulesets |
-| [github-environment](./github-environment.md) | Adds a deployment environment to an existing GitHub repository |
+| Module                                        | Description                                                                                            |
+| --------------------------------------------- | ------------------------------------------------------------------------------------------------------ |
+| [github-repo](./github-repo.md)               | Creates and configures a GitHub repository with standard settings, branch protection, and tag rulesets |
+| [github-environment](./github-environment.md) | Adds a deployment environment to an existing GitHub repository                                         |
 
 ## Deploying
 
@@ -17,10 +17,10 @@ Modules are run via the [Apply OpenTofu](../workflows/apply-open-tofu.md) reusab
 
 State is stored at `<app_name>/<state_type>/<state_name>/terraform.tfstate` in the shared R2 bucket. For example:
 
-| State key | Represents |
-|---|---|
-| `my-app/github-config/setup/terraform.tfstate` | GitHub repository and environment configuration |
-| `my-app/app-deployment/integration/terraform.tfstate` | Integration environment deployment |
-| `my-app/app-deployment/production/terraform.tfstate` | Production environment deployment |
+| State key                                             | Represents                                      |
+| ----------------------------------------------------- | ----------------------------------------------- |
+| `my-app/github-config/setup/terraform.tfstate`        | GitHub repository and environment configuration |
+| `my-app/app-deployment/integration/terraform.tfstate` | Integration environment deployment              |
+| `my-app/app-deployment/production/terraform.tfstate`  | Production environment deployment               |
 
 `app_name` should match the repository slug. `state_type` groups related state files by function. `state_name` identifies the specific instance and doubles as the GitHub Actions environment name for the apply job.

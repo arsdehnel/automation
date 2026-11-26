@@ -10,22 +10,24 @@ if [[ ! -f "local.auto.tfvars" ]]; then
 fi
 
 ACCOUNT_ID=$(grep -E 'cloudflare_account_id\s*=' local.auto.tfvars | sed 's/.*=\s*"\(.*\)"/\1/')
-GITHUB_ORG="kad-products"
-BUCKET_NAME="kad-products-opentofu-remote-state"
+GITHUB_ORG="arsdehnel"
+BUCKET_NAME="arsdehnel-opentofu-remote-state"
 
 if [[ -z "$ACCOUNT_ID" ]]; then
   echo "Error: could not parse cloudflare_account_id from local.auto.tfvars"
   exit 1
 fi
 
-if [[ -z "${R2_TOKEN_ID:-}" ]]; then
-  echo "Error: R2_TOKEN_ID environment variable is not set."
-  echo "Find the Access Key ID for the 'opentofu-remote-state' token in the Cloudflare dashboard (R2 → Manage R2 API tokens)."
+if [[ -z "${CF_TOKEN_ID:-}" ]]; then
+  echo "Error: CF_TOKEN_ID environment variable is not set."
+  echo "Find the token ID for the 'arsdehnel-cloudflare-token' account token in the Cloudflare dashboard (Account → Account API Tokens)."
   exit 1
 fi
 
 tofu init
 tofu import cloudflare_r2_bucket.opentofu_remote_state "${ACCOUNT_ID}/${BUCKET_NAME}"
-tofu import cloudflare_api_token.opentofu_state "${R2_TOKEN_ID}"
-tofu import github_actions_organization_secret.r2_access_key_id "${GITHUB_ORG}/KAD_CF_R2_ACCESS_KEY_ID_ID"
-tofu import github_actions_organization_secret.r2_secret_access_key "${GITHUB_ORG}/TOFU_BACKEND_SECRET_ACCESS_KEY"
+tofu import cloudflare_account_token.cf_account_token "${CF_TOKEN_ID}"
+tofu import github_actions_secret.r2_access_key_id "${GITHUB_ORG}/automation/CF_R2_ACCESS_KEY_ID"
+tofu import github_actions_secret.r2_secret_key "${GITHUB_ORG}/automation/CF_R2_SECRET_KEY"
+tofu import github_actions_secret.cloudflare_account_id "${GITHUB_ORG}/automation/CF_ACCOUNT_ID"
+tofu import github_actions_secret.cloudflare_token "${GITHUB_ORG}/automation/CF_TOKEN"

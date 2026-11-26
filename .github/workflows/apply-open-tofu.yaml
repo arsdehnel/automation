@@ -27,7 +27,7 @@ jobs:
     permissions:
       contents: read
     env:
-      TF_VAR_kad_github_token: ${{ secrets.KAD_GITHUB_TOKEN }}
+      TF_VAR_platform_gh_token: ${{ secrets.PLATFORM_GH_TOKEN }}
       TF_VAR_repo_name: ${{github.event.repository.name}}
 
     steps:
@@ -44,14 +44,14 @@ jobs:
       - name: Generate backend config
         env:
           TOFU_STATE_KEY: ${{ inputs.app-name }}/${{ inputs.state-type }}/${{ inputs.state-name }}/terraform.tfstate
-          KAD_CF_R2_ACCESS_KEY_ID: ${{ secrets.KAD_CF_R2_ACCESS_KEY_ID }}
-          KAD_CF_R2_SECRET_KEY: ${{ secrets.KAD_CF_R2_SECRET_KEY }}
-          CF_ACCOUNT_ID: ${{ secrets.KAD_CLOUDFLARE_ACCOUNT_ID }}
+          CF_R2_ACCESS_KEY_ID: ${{ secrets.CF_R2_ACCESS_KEY_ID }}
+          CF_R2_SECRET_KEY: ${{ secrets.CF_R2_SECRET_KEY }}
+          CF_ACCOUNT_ID: ${{ secrets.CF_ACCOUNT_ID }}
         run: |
           cat > "${{ inputs.working-directory }}/backend.tf" <<EOF
           terraform {
             backend "s3" {
-              bucket                      = "kad-products-opentofu-remote-state"
+              bucket                      = "arsdehnel-opentofu-remote-state"
               key                         = "${TOFU_STATE_KEY}"
               region                      = "auto"
               skip_credentials_validation = true
@@ -60,8 +60,8 @@ jobs:
               skip_requesting_account_id  = true
               skip_s3_checksum            = true
               use_path_style              = true
-              access_key                  = "${KAD_CF_R2_ACCESS_KEY_ID}"
-              secret_key                  = "${KAD_CF_R2_SECRET_KEY}"
+              access_key                  = "${CF_R2_ACCESS_KEY_ID}"
+              secret_key                  = "${CF_R2_SECRET_KEY}"
               endpoints = {
                 s3 = "https://${CF_ACCOUNT_ID}.r2.cloudflarestorage.com"
               }

@@ -14,8 +14,8 @@ run "product_repo_homepage_url" {
   }
 
   assert {
-    condition     = github_repository.repo.homepage_url == "https://kad-products.com/products/my-repo/"
-    error_message = "Expected homepage_url to be set for product repos"
+    condition     = github_repository.repo.homepage_url == ""
+    error_message = "Expected homepage_url to be empty"
   }
 }
 

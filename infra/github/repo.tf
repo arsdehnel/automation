@@ -2,8 +2,8 @@ module "repo" {
   source = "../../open-tofu/modules/github-repo"
 
   repo_name        = var.repo_name
-  repo_description = "KAD Platform Automation"
-  is_product       = true
+  repo_description = "Platform automation for arsdehnel"
+  is_product       = false
   required_checks = [
     "test-cli / run-tests",
     "lint-cli / lint-code",

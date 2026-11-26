@@ -1,8 +1,8 @@
-# KAD_GITHUB_TOKEN rotation
+# PLATFORM_GH_TOKEN rotation
 
-`KAD_GITHUB_TOKEN` is a fine-grained GitHub PAT stored as an org secret. It is used by OpenTofu workflows to manage GitHub org resources — creating repositories, configuring branch and tag rulesets, adding environments, and granting repos access to org secrets.
+`PLATFORM_GH_TOKEN` is a fine-grained GitHub PAT stored as an org secret. It is used by OpenTofu workflows to manage GitHub org resources — creating repositories, configuring branch and tag rulesets, adding environments, and granting repos access to org secrets.
 
-There is no automated rotation. This is a manual process until the GitHub App migration planned in [#61](https://github.com/kad-products/platform/issues/61).
+There is no automated rotation. This is a manual process.
 
 ## When to rotate
 
@@ -12,9 +12,9 @@ There is no automated rotation. This is a manual process until the GitHub App mi
 ## Creating a new token
 
 1. Go to [**GitHub Settings → Developer Settings → Personal access tokens → Fine-grained tokens → Generate new token**](https://github.com/settings/personal-access-tokens)
-2. Set the name to `kad-github-token`
+2. Set the name to `arsdehnel-platform-github-token`
 3. Set the expiry to 60 days
-4. Set **Resource owner** to `kad-products`
+4. Set **Resource owner** to `arsdehnel`
 5. Set **Repository access** to **All repositories** (required because the token is used to create new repos)
 6. Grant the following permissions:
 
@@ -33,16 +33,14 @@ There is no automated rotation. This is a manual process until the GitHub App mi
 
 7. Generate and copy the token value
 
-> If the `kad-products` org requires admin approval for fine-grained PATs, submit the token and approve it from the org settings before proceeding.
-
 ## Rolling an existing token
 
-1. Go to [**GitHub Settings → Developer Settings → Personal access tokens → Fine-grained tokens → Generate new token**](https://github.com/settings/personal-access-tokens)
-2. Click the existing `kad-github-token` token in the list (if it does not exist see above for process to create a new token)
+1. Go to [**GitHub Settings → Developer Settings → Personal access tokens → Fine-grained tokens**](https://github.com/settings/personal-access-tokens)
+2. Click the existing `arsdehnel-platform-github-token` token in the list (if it does not exist see above for the process to create a new token)
 3. Generate and copy the token value
 
 ## Updating the org secret
 
-1. Go to [**GitHub → kad-products org → Settings → Secrets and variables → Actions**](https://github.com/organizations/kad-products/settings/secrets/actions/KAD_GITHUB_TOKEN)
-2. Find `KAD_GITHUB_TOKEN` and click **Update**
+1. Go to [**GitHub → arsdehnel → Settings → Secrets and variables → Actions**](https://github.com/organizations/arsdehnel/settings/secrets/actions/PLATFORM_GH_TOKEN)
+2. Find `PLATFORM_GH_TOKEN` and click **Update**
 3. Paste the new token value and save

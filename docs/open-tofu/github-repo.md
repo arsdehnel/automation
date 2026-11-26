@@ -1,6 +1,6 @@
 # github-repo
 
-Creates and configures a GitHub repository with KAD Products standard settings.
+Creates and configures a GitHub repository with standard settings.
 
 ## What it creates
 
@@ -8,13 +8,11 @@ Creates and configures a GitHub repository with KAD Products standard settings.
 - **Branch ruleset** on `main` requiring all specified status checks to pass before merge; org admins can bypass
 - **Tag ruleset** enforcing semver format (`vMAJOR.MINOR.PATCH`) on all tags
 
-For product repos (`is_product = true`), the repository `homepage_url` is set to `https://kad-products/products/<repo_name>/`.
-
 ## Usage
 
 ```hcl
 module "repo" {
-  source = "github.com/kad-products/platform//open-tofu/modules/github-repo?ref=main"
+  source = "github.com/arsdehnel/automation//open-tofu/modules/github-repo?ref=main"
 
   repo_name        = "my-app"
   repo_description = "My application"
@@ -31,10 +29,10 @@ Pin `ref` to a release tag in production to avoid unexpected changes.
 | `repo_name` | `string` | Yes | — | Repository slug |
 | `repo_description` | `string` | Yes | — | Description shown in GitHub's UI |
 | `required_checks` | `set(string)` | Yes | — | Status check names that must pass before merging to `main`. At least one required.<sup>*</sup> |
-| `is_product` | `bool` | No | `false` | When `true`, sets `homepage_url` to the KAD Products product page |
+| `is_product` | `bool` | No | `false` | Reserved for future use |
 
-<sup>*</sup> The way GitHub matches check names to the required checks is a little odd and hard to decipher from the docs and UI.  To help avoid endless guess-and-check calling the GitHub API on a specific SHA can help get the definitive name.  Run this on an existing SHA that has had a check already run.  
+<sup>*</sup> The way GitHub matches check names to the required checks is a little odd and hard to decipher from the docs and UI.  To help avoid endless guess-and-check calling the GitHub API on a specific SHA can help get the definitive name.  Run this on an existing SHA that has had a check already run.
 
 ```sh
-gh api repos/kad-products/<repo-name>/commits/<sha>/check-runs --jq '.check_runs[] | .name'
+gh api repos/arsdehnel/<repo-name>/commits/<sha>/check-runs --jq '.check_runs[] | .name'
 ```

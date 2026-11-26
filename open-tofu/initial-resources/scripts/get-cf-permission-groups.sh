@@ -5,6 +5,13 @@ INPUT=$(cat)
 API_TOKEN=$(echo "$INPUT" | jq -r '.api_token')
 ACCOUNT_ID=$(echo "$INPUT" | jq -r '.account_id')
 
+echo "Running for $ACCOUNT_ID" > debug-cf-perm-groups.log
+echo "Running for $API_TOKEN" >> debug-cf-perm-groups.log
+
+curl -sf \
+  -H "Authorization: Bearer ${API_TOKEN}" \
+  "https://api.cloudflare.com/client/v4/accounts/${ACCOUNT_ID}/tokens/permission_groups" >> debug-cf-perm-groups.log
+
 # for research purposes
 # curl -s \
 #     -H "Authorization: Bearer ${CLOUDFLARE_API_TOKEN}" \

@@ -8,6 +8,6 @@ terraform {
 }
 
 provider "github" {
-  owner = "kad-products"
-  token = var.kad_github_token
+  owner = "arsdehnel"
+  token = var.platform_gh_token
 }

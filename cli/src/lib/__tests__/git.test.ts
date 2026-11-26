@@ -12,18 +12,18 @@ describe('getOrgAndRepo', () => {
 	});
 
 	it('parses org and repo from an HTTPS GitHub URL', () => {
-		vi.mocked(execSync).mockReturnValue('https://github.com/kad-products/my-repo.git\n' as never);
-		expect(getOrgAndRepo()).toEqual({ org: 'kad-products', repo: 'my-repo' });
+		vi.mocked(execSync).mockReturnValue('https://github.com/arsdehnel/my-repo.git\n' as never);
+		expect(getOrgAndRepo()).toEqual({ org: 'arsdehnel', repo: 'my-repo' });
 	});
 
 	it('parses org and repo from an SSH GitHub URL', () => {
-		vi.mocked(execSync).mockReturnValue('git@github.com:kad-products/my-repo.git\n' as never);
-		expect(getOrgAndRepo()).toEqual({ org: 'kad-products', repo: 'my-repo' });
+		vi.mocked(execSync).mockReturnValue('git@github.com:arsdehnel/my-repo.git\n' as never);
+		expect(getOrgAndRepo()).toEqual({ org: 'arsdehnel', repo: 'my-repo' });
 	});
 
 	it('parses a URL without a .git suffix', () => {
-		vi.mocked(execSync).mockReturnValue('https://github.com/kad-products/my-repo\n' as never);
-		expect(getOrgAndRepo()).toEqual({ org: 'kad-products', repo: 'my-repo' });
+		vi.mocked(execSync).mockReturnValue('https://github.com/arsdehnel/my-repo\n' as never);
+		expect(getOrgAndRepo()).toEqual({ org: 'arsdehnel', repo: 'my-repo' });
 	});
 
 	it('throws on an unrecognizable remote URL', () => {

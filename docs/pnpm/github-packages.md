@@ -1,13 +1,13 @@
 # GitHub Packages
 
-GitHub Packages requires authentication to install packages, even public ones. This guide covers how to configure pnpm to install `@kad-products` scoped packages.
+GitHub Packages requires authentication to install packages, even public ones. This guide covers how to configure pnpm to install `@arsdehnel` scoped packages.
 
 ## Project `.npmrc`
 
-Commit this to the root of the repo. It scopes the `@kad-products` registry to GitHub Packages. 
+Commit this to the root of the repo. It scopes the `@arsdehnel` registry to GitHub Packages.
 
 ```
-@kad-products:registry=https://npm.pkg.github.com
+@arsdehnel:registry=https://npm.pkg.github.com
 ```
 
 All other packages continue to resolve from the default npm registry.  And then run this command to tell `pnpm` where the token is stored.  Using variable expansion in `.npmrc` is not supported by `pnpm`.
@@ -28,7 +28,7 @@ export NODE_AUTH_TOKEN=YOUR_TOKEN
 
 ## CI setup for consuming repos
 
-`GITHUB_TOKEN` in every workflow run already has implicit `read:packages` access for packages within the `kad-products` org. Adding `registry-url` to the `actions/setup-node` step causes the action to set `NODE_AUTH_TOKEN` from `GITHUB_TOKEN` automatically — no PAT or secret changes needed:
+`GITHUB_TOKEN` in every workflow run already has implicit `read:packages` access for packages within the `arsdehnel` org. Adding `registry-url` to the `actions/setup-node` step causes the action to set `NODE_AUTH_TOKEN` from `GITHUB_TOKEN` automatically — no PAT or secret changes needed:
 
 ```yaml
 - uses: actions/setup-node@v7
@@ -38,4 +38,4 @@ export NODE_AUTH_TOKEN=YOUR_TOKEN
     registry-url: 'https://npm.pkg.github.com'
 ```
 
-This will need to be added to the shared `create-release.yaml` workflow when a consuming repo first adds an `@kad-products` dependency.
+This will need to be added to the shared `create-release.yaml` workflow when a consuming repo first adds an `@arsdehnel` dependency.

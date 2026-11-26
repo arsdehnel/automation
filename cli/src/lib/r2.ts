@@ -1,15 +1,15 @@
 import { GetObjectCommand, ListObjectsV2Command, S3Client } from '@aws-sdk/client-s3';
 
-const BUCKET = 'kad-products-opentofu-remote-state';
+const BUCKET = 'arsdehnel-opentofu-remote-state';
 
 export function createR2Client(): S3Client {
-	const accessKeyId = process.env.KAD_CF_R2_ACCESS_KEY_ID;
-	const secretAccessKey = process.env.KAD_CF_R2_SECRET_KEY;
+	const accessKeyId = process.env.CF_R2_ACCESS_KEY_ID;
+	const secretAccessKey = process.env.CF_R2_SECRET_KEY;
 	const accountId = process.env.CF_ACCOUNT_ID;
 
 	const missing = [
-		!accessKeyId && 'KAD_CF_R2_ACCESS_KEY_ID',
-		!secretAccessKey && 'KAD_CF_R2_SECRET_KEY',
+		!accessKeyId && 'CF_R2_ACCESS_KEY_ID',
+		!secretAccessKey && 'CF_R2_SECRET_KEY',
 		!accountId && 'CF_ACCOUNT_ID',
 	].filter(Boolean) as string[];
 

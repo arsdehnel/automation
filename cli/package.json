@@ -1,12 +1,12 @@
 {
-	"name": "@kad-products/cli",
+	"name": "@arsdehnel/cli",
 	"version": "1.22.2",
 	"files": [
 		"dist",
 		"README.md"
 	],
 	"bin": {
-		"kad": "./dist/cli.js"
+		"arsd": "./dist/cli.js"
 	},
 	"scripts": {
 		"build": "tsup",

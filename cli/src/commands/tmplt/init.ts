@@ -80,7 +80,7 @@ export async function handler(): Promise<void> {
 	const pkgContent = readFileMaybe(join(cwd, 'package.json'));
 	if (pkgContent) {
 		const pkg = JSON.parse(pkgContent) as Record<string, unknown>;
-		pkg.name = `@kad-products/${repo}`;
+		pkg.name = `@arsdehnel/${repo}`;
 		pkg.description = description;
 		pkg.version = '0.0.0';
 		writeFileTo(cwd, 'package.json', `${JSON.stringify(pkg, null, '\t')}\n`);
@@ -99,7 +99,7 @@ export async function handler(): Promise<void> {
 			cwd,
 			'release.config.js',
 			releaseContent.replace(
-				`repositoryUrl: 'https://github.com/kad-products/tmplt-rwsdk'`,
+				`repositoryUrl: 'https://github.com/arsdehnel/tmplt-rwsdk'`,
 				`repositoryUrl: 'https://github.com/${org}/${repo}'`,
 			),
 		);
@@ -147,13 +147,13 @@ export async function handler(): Promise<void> {
 	// src/documents/app.tsx — update page <title>
 	const appTsxContent = readFileMaybe(join(cwd, 'src/documents/app.tsx'));
 	if (appTsxContent) {
-		writeFileTo(cwd, 'src/documents/app.tsx', appTsxContent.replace('KAD RWSDK Template', siteTitle));
+		writeFileTo(cwd, 'src/documents/app.tsx', appTsxContent.replace('arsdehnel RWSDK Template', siteTitle));
 	}
 
 	// src/layouts/Default.tsx — update welcome title
 	const defaultLayoutContent = readFileMaybe(join(cwd, 'src/layouts/Default.tsx'));
 	if (defaultLayoutContent) {
-		writeFileTo(cwd, 'src/layouts/Default.tsx', defaultLayoutContent.replace('KAD RWSDK Template', siteTitle));
+		writeFileTo(cwd, 'src/layouts/Default.tsx', defaultLayoutContent.replace('arsdehnel RWSDK Template', siteTitle));
 	}
 
 	// CHANGELOG.md — delete; the new repo starts fresh

@@ -4,7 +4,7 @@
 
 `apply-open-tofu`
 
-Runs `tofu init`, `tofu plan`, and `tofu apply` against a single OpenTofu configuration directory, using KAD Products' shared Cloudflare R2 bucket as the remote backend for state storage.
+Runs `tofu init`, `tofu plan`, and `tofu apply` against a single OpenTofu configuration directory, using the shared Cloudflare R2 bucket as the remote backend for state storage.
 
 The plan is saved and passed directly to apply, so the apply step executes exactly what was planned. This also sets up a clean split point for adding an approval gate between plan and apply in the future — that would require splitting this into two jobs with artifact upload/download, but no changes to the caller workflow.
 
@@ -23,19 +23,19 @@ The `state_name` input is also used as the GitHub Actions environment for the jo
 
 ## Secrets
 
-| Secret                           | Provisioned by                   |
-| -------------------------------- | -------------------------------- |
-| `KAD_CF_R2_ACCESS_KEY_ID_ID`     | `open-tofu/state-storage` module |
-| `TOFU_BACKEND_SECRET_ACCESS_KEY` | `open-tofu/state-storage` module |
-| `CLOUDFLARE_ACCOUNT_ID`          | Set manually as an org secret    |
+| Secret                | Provisioned by                |
+| --------------------- | ----------------------------- |
+| `CF_R2_ACCESS_KEY_ID` | `open-tofu/initial-resources` |
+| `CF_R2_SECRET_KEY`    | `open-tofu/initial-resources` |
+| `CF_ACCOUNT_ID`       | `open-tofu/initial-resources` |
 
 These are read directly from organization secrets — callers do not need to map them.
 
 ## Terraform variables
 
-The workflow automatically exports `KAD_GITHUB_TOKEN` as `TF_VAR_kad_github_token`, making it available to OpenTofu configurations as an input variable without any caller configuration.
+The workflow automatically exports `PLATFORM_GH_TOKEN` as `TF_VAR_platform_gh_token`, making it available to OpenTofu configurations as an input variable without any caller configuration.
 
-GitHub Actions does not support dynamic secret lookup at runtime — `${{ secrets[variable] }}` is not valid syntax — so any additional secrets needed as Terraform variables must be mapped explicitly. There is no mechanism for this today; see [#34](https://github.com/kad-products/platform/issues/34) for a planned `extra_tf_vars` input.
+GitHub Actions does not support dynamic secret lookup at runtime — `${{ secrets[variable] }}` is not valid syntax — so any additional secrets needed as Terraform variables must be mapped explicitly.
 
 ## Permissions
 

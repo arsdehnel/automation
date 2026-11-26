@@ -11,7 +11,7 @@ Adds a deployment environment to an existing GitHub repository.
 
 ```hcl
 module "environment" {
-  source = "github.com/kad-products/platform//open-tofu/modules/github-environment?ref=main"
+  source = "github.com/arsdehnel/automation//open-tofu/modules/github-environment?ref=main"
 
   repo_name        = "my-app"
   environment_name = "production"

@@ -39,7 +39,7 @@ function getDryRunConfig() {
 
 function getCIConfig() {
 	return {
-		repositoryUrl: 'https://github.com/kad-products/platform',
+		repositoryUrl: 'https://github.com/arsdehnel/automation',
 		branches: ['main'],
 		plugins: [
 			[

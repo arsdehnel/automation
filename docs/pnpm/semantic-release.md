@@ -65,7 +65,7 @@ plugins: [
 
 ## Token requirements
 
-The release workflow uses `KAD_GITHUB_TOKEN` (a PAT with repo and workflow scopes) rather than `GITHUB_TOKEN`. This is required for two reasons:
+The release workflow uses `PLATFORM_GH_TOKEN` (a PAT with repo and workflow scopes) rather than `GITHUB_TOKEN`. This is required for two reasons:
 
 1. The release commit must bypass branch protection rules, which the default `GITHUB_TOKEN` cannot do
 2. The release commit must trigger downstream workflows (e.g. publish), which pushes from `GITHUB_TOKEN` do not

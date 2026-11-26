@@ -1,6 +1,6 @@
 # Workflows
 
-Reusable GitHub Actions workflows for use across the KAD Products organization. Consume them with `uses: kad-products/platform/.github/workflows/<name>@main` and `secrets: inherit`.
+Reusable GitHub Actions workflows for use across the arsdehnel automation platform. Consume them with `uses: arsdehnel/automation/.github/workflows/<name>@main` and `secrets: inherit`.
 
 ## Documentation
 
@@ -33,14 +33,14 @@ All steps in all shared workflows should have a short name representing the step
 
 ## Secrets
 
-Org secrets follow the `KAD_` naming convention defined in [docs/secrets/](../secrets/readme.md). Workflow authors are responsible for mapping these to the env var names that consuming tools expect.
+Workflow authors map org secrets to the env var names that consuming tools expect.
 
 Map secrets to tool-expected names in the job or step `env` block:
 
 ```yaml
 env:
-  CLOUDFLARE_API_TOKEN: ${{ secrets.KAD_CLOUDFLARE_TOKEN }}
-  CLOUDFLARE_ACCOUNT_ID: ${{ secrets.KAD_CLOUDFLARE_ACCOUNT_ID }}
+  CLOUDFLARE_API_TOKEN: ${{ secrets.CF_TOKEN }}
+  CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CF_ACCOUNT_ID }}
 ```
 
 This keeps the secret name stable regardless of which tool consumes it. If a workflow switches deploy tooling, only the env var mapping changes.

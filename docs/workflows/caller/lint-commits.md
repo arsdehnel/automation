@@ -16,7 +16,7 @@ on:
 
 jobs:
   lint-commits:
-    uses: kad-products/platform/.github/workflows/lint-commits.yaml@main
+    uses: arsdehnel/automation/.github/workflows/lint-commits.yaml@main
     permissions:
       contents: read
       packages: read

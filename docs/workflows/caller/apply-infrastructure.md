@@ -1,6 +1,6 @@
 # Apply Infrastructure
 
-Runs `tofu init`, `tofu plan`, and `tofu apply` against the calling repo's OpenTofu configuration, using KAD Products' shared Cloudflare R2 bucket as the remote backend for state storage.
+Runs `tofu init`, `tofu plan`, and `tofu apply` against the calling repo's OpenTofu configuration, using the shared Cloudflare R2 bucket as the remote backend for state storage.
 
 The plan is saved and passed directly to apply, so the apply step executes exactly what was planned. This also sets up a clean split point for adding an approval gate between plan and apply in the future — that would require splitting this into two jobs with artifact upload/download, but no changes to the caller workflow.
 
@@ -18,7 +18,7 @@ on:
 
 jobs:
   deploy-github-config:
-    uses: kad-products/platform/.github/workflows/apply-open-tofu.yaml@main
+    uses: arsdehnel/automation/.github/workflows/apply-open-tofu.yaml@main
     with:
       app_name: my-app
       state_type: github-config
@@ -27,7 +27,7 @@ jobs:
     secrets: inherit
 
   deploy-production:
-    uses: kad-products/platform/.github/workflows/apply-open-tofu.yaml@main
+    uses: arsdehnel/automation/.github/workflows/apply-open-tofu.yaml@main
     with:
       app_name: my-app
       state_type: app-deployment
@@ -40,11 +40,11 @@ State is stored at `<app_name>/<state_type>/<state_name>/terraform.tfstate`. `st
 
 The workflow reads the following organization secrets directly — callers do not need to map them:
 
-| Secret                           | Provisioned by                   |
-| -------------------------------- | -------------------------------- |
-| `KAD_CF_R2_ACCESS_KEY_ID_ID`     | `open-tofu/state-storage` module |
-| `TOFU_BACKEND_SECRET_ACCESS_KEY` | `open-tofu/state-storage` module |
-| `CLOUDFLARE_ACCOUNT_ID`          | Set manually as an org secret    |
+| Secret                | Provisioned by                              |
+| --------------------- | ------------------------------------------- |
+| `CF_R2_ACCESS_KEY_ID` | `open-tofu/initial-resources`               |
+| `CF_R2_SECRET_KEY`    | `open-tofu/initial-resources`               |
+| `CF_ACCOUNT_ID`       | `open-tofu/initial-resources`               |
 
 ## Inputs
 

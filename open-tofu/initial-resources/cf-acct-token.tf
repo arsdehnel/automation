@@ -1,6 +1,6 @@
-resource "cloudflare_account_token" "kad_cloudflare_token" {
+resource "cloudflare_account_token" "cf_account_token" {
   account_id = var.cloudflare_account_id
-  name       = "kad-cloudflare-token"
+  name       = "arsdehnel-cloudflare-token"
 
   policies = [{
     effect = "allow"

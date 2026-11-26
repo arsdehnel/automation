@@ -28,7 +28,7 @@ jobs:
           node-version-file: '.nvmrc'
           cache: 'pnpm'
           registry-url: 'https://npm.pkg.github.com'
-          scope: '@kad-products'
+          scope: '@arsdehnel'
 
       - run: pnpm install
         working-directory: ${{ inputs.working-directory }}

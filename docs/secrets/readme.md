@@ -1,26 +1,32 @@
 # Secrets
 
-Naming and usage conventions for GitHub Actions secrets across the KAD Products organization.
-
-## Naming convention
-
-All org-level secrets use the `KAD_` prefix. Secret names describe **what the credential is**, not how it is used. The consuming workflow maps the secret to whatever name the tool expects.
-
-For example, Wrangler reads `CLOUDFLARE_API_TOKEN` from the environment. The org secret is named `KAD_CLOUDFLARE_TOKEN` — it describes the credential. The workflow sets `CLOUDFLARE_API_TOKEN: ${{ secrets.KAD_CLOUDFLARE_TOKEN }}` to satisfy Wrangler's convention. If the deploy tooling changes, only the mapping in the workflow changes — the secret name stays stable.
+Naming and usage conventions for GitHub Actions secrets across the arsdehnel automation platform.
 
 ## Org secrets
 
-| Secret                      | What it is                                                                                                                  |
-| --------------------------- | --------------------------------------------------------------------------------------------------------------------------- |
-| `KAD_CLOUDFLARE_TOKEN`      | Cloudflare account token for deploying workers and managing Cloudflare infrastructure                                       |
-| `KAD_CLOUDFLARE_ACCOUNT_ID` | Cloudflare account ID that all resources are provisioned into                                                               |
-| `KAD_CF_R2_ACCESS_KEY_ID`   | Cloudflare token ID, formatted as an S3 access key for authenticating to the remote state R2 bucket                         |
-| `KAD_CF_R2_SECRET_KEY`      | `sha256` of the Cloudflare token value, formatted as an S3 secret key for the remote state R2 bucket                        |
-| `KAD_GITHUB_TOKEN`          | Fine-grained GitHub PAT for managing GitHub org resources via OpenTofu — see [rotation procedure](./github-pat-rotation.md) |
+| Secret                | What it is                                                                                                                  |
+| --------------------- | --------------------------------------------------------------------------------------------------------------------------- |
+| `CF_TOKEN`            | Cloudflare account token for deploying workers and managing Cloudflare infrastructure                                       |
+| `CF_ACCOUNT_ID`       | Cloudflare account ID that all resources are provisioned into                                                               |
+| `CF_R2_ACCESS_KEY_ID` | Cloudflare token ID, formatted as an S3 access key for authenticating to the remote state R2 bucket                         |
+| `CF_R2_SECRET_KEY`    | `sha256` of the Cloudflare token value, formatted as an S3 secret key for the remote state R2 bucket                        |
+| `PLATFORM_GH_TOKEN`   | Fine-grained GitHub PAT for managing GitHub org resources via OpenTofu — see [rotation procedure](./github-pat-rotation.md) |
 
-The Cloudflare secrets are provisioned by `open-tofu/initial-resources`. `KAD_GITHUB_TOKEN` is rotated manually.
+The Cloudflare secrets are provisioned by `open-tofu/initial-resources`. `PLATFORM_GH_TOKEN` is rotated manually.
+
+## Secrets mapping in workflows
+
+Workflow authors map these to whatever env var name the consuming tool expects. For example, Wrangler reads `CLOUDFLARE_API_TOKEN`:
+
+```yaml
+env:
+  CLOUDFLARE_API_TOKEN: ${{ secrets.CF_TOKEN }}
+  CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CF_ACCOUNT_ID }}
+```
+
+Most shared workflows in this repo handle secrets mapping internally. Callers use `secrets: inherit` and do not need to map secrets themselves.
 
 ## See also
 
 - [Workflow secrets mapping](../workflows/readme.md#secrets) — how workflow authors map these to env vars
-- [initial-resources](../open-tofu/initial-resources/readme.md) — where Cloudflare secrets are provisioned
+- [initial-resources](../../open-tofu/initial-resources/readme.md) — where Cloudflare secrets are provisioned

@@ -22,6 +22,6 @@ provider "cloudflare" {
 }
 
 provider "github" {
-  owner = "kad-products"
+  owner = "arsdehnel"
   token = var.github_token
 }

@@ -1,12 +1,12 @@
 # pnpm Standards
 
-Guidelines and conventions for package scripts, tooling, and local development setup across KAD Products repos.
+Guidelines and conventions for package scripts, tooling, and local development setup across arsdehnel repos.
 
 ## Contents
 
 | Guide | Description |
 |---|---|
-| [GitHub Packages](./github-packages.md) | Authenticate pnpm to install `@kad-products` packages from GitHub Packages |
+| [GitHub Packages](./github-packages.md) | Authenticate pnpm to install `@arsdehnel` packages from GitHub Packages |
 | [Script naming](./script-naming.md) | Conventions for naming package.json scripts consistently across repos |
 | [Linting](./linting.md) | Biome, Knip, and Prettier — what each tool covers and how they're configured |
 | [Testing](./testing.md) | Vitest and Playwright patterns and CI setup |

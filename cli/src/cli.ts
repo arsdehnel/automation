@@ -11,7 +11,7 @@ import { initLogger, logger } from './logger';
 const args = hideBin(process.argv).filter(arg => arg !== '--');
 
 yargs(args)
-	.scriptName('kad')
+	.scriptName('arsd')
 	.usage('$0 <command> [options]')
 	.strict()
 	.command(ciCmd)

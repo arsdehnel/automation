@@ -8,7 +8,7 @@ Runs the repo's lint, format, and type checks via the `ci:lint` script. The cons
 
 ```yaml
 lint-code:
-  uses: kad-products/platform/.github/workflows/lint-code.yaml@main
+  uses: arsdehnel/automation/.github/workflows/lint-code.yaml@main
   permissions:
     contents: read
     packages: read
@@ -25,7 +25,7 @@ The consuming repo defines what `ci:tests` runs — it may be unit tests only, P
 
 ```yaml
 run-tests:
-  uses: kad-products/platform/.github/workflows/run-tests.yaml@main
+  uses: arsdehnel/automation/.github/workflows/run-tests.yaml@main
   permissions:
     contents: read
     packages: read
@@ -44,11 +44,11 @@ Plan jobs require `pull-requests: write` (to post the plan comment) rather than 
 
 The workflow reads the following organization secrets directly — callers do not need to map them:
 
-| Secret                           | Provisioned by                   |
-| -------------------------------- | -------------------------------- |
-| `KAD_CF_R2_ACCESS_KEY_ID_ID`     | `open-tofu/state-storage` module |
-| `TOFU_BACKEND_SECRET_ACCESS_KEY` | `open-tofu/state-storage` module |
-| `CLOUDFLARE_ACCOUNT_ID`          | Set manually as an org secret    |
+| Secret                | Provisioned by                |
+| --------------------- | ----------------------------- |
+| `CF_R2_ACCESS_KEY_ID` | `open-tofu/initial-resources` |
+| `CF_R2_SECRET_KEY`    | `open-tofu/initial-resources` |
+| `CF_ACCOUNT_ID`       | `open-tofu/initial-resources` |
 
 ### Inputs
 
@@ -61,7 +61,7 @@ The workflow reads the following organization secrets directly — callers do no
 
 ```yaml
 plan-github-config:
-  uses: kad-products/platform/.github/workflows/plan-open-tofu.yaml@main
+  uses: arsdehnel/automation/.github/workflows/plan-open-tofu.yaml@main
   with:
     app_name: my-app
     state_type: github-config
@@ -85,7 +85,7 @@ Runs `tofu init` and `tofu test` against a single OpenTofu module directory. Cal
 
 ```yaml
 test-my-module:
-  uses: kad-products/platform/.github/workflows/test-open-tofu.yaml@main
+  uses: arsdehnel/automation/.github/workflows/test-open-tofu.yaml@main
   permissions:
     contents: read
   with:
