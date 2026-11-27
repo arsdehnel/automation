@@ -33,41 +33,21 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
-      - name: Collect branch protection rules
+      - name: Set main ruleset to evaluate
         run: |
-          curl --fail-with-body -s \
-            -H "Authorization: token $GITHUB_TOKEN" \
-            -H "Accept: application/vnd.github.v3+json" \
-            https://api.github.com/repos/${{ github.repository }}/branches/${{ github.ref_name }}/protection \
-          | jq '{
-              restrictions: (if .restrictions then {
-                users: [.restrictions.users[].login],
-                teams: [.restrictions.teams[].slug]
-              } else null end),
-              required_status_checks: (if .required_status_checks then {
-                strict: .required_status_checks.strict,
-                contexts: .required_status_checks.contexts
-              } else null end),
-              enforce_admins: .enforce_admins.enabled,
-              required_pull_request_reviews: (if .required_pull_request_reviews then {
-                dismiss_stale_reviews: .required_pull_request_reviews.dismiss_stale_reviews,
-                require_code_owner_reviews: .required_pull_request_reviews.require_code_owner_reviews,
-                required_approving_review_count: .required_pull_request_reviews.required_approving_review_count
-              } else null end),
-              allow_deletions: .allow_deletions.enabled,
-              allow_force_pushes: .allow_force_pushes.enabled,
-              block_creations: .block_creations.enabled
-            }' > /tmp/branch-protection.json
-        env:
-          GITHUB_TOKEN: ${{ secrets.ARSDEHNEL_GITHUB_TOKEN }}
-
-      - name: Disable branch protection
-        run: |
-          curl -X PUT \
-            -H "Authorization: token $GITHUB_TOKEN" \
-            -H "Accept: application/vnd.github.v3+json" \
-            https://api.github.com/repos/${{ github.repository }}/branches/${{ github.ref_name }}/protection \
-            -d '{"restrictions":null,"required_status_checks":null,"enforce_admins":false,"required_pull_request_reviews":null}'
+          RULESET_ID=$(curl --fail-with-body -s \
+            -H "Authorization: Bearer $GITHUB_TOKEN" \
+            -H "Accept: application/vnd.github+json" \
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            "https://api.github.com/repos/${{ github.repository }}/rulesets" \
+            | jq '.[] | select(.name == "main") | .id')
+          echo "RULESET_ID=$RULESET_ID" >> "$GITHUB_ENV"
+          curl --fail-with-body -s -X PUT \
+            -H "Authorization: Bearer $GITHUB_TOKEN" \
+            -H "Accept: application/vnd.github+json" \
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            "https://api.github.com/repos/${{ github.repository }}/rulesets/$RULESET_ID" \
+            -d '{"enforcement":"evaluate"}'
         env:
           GITHUB_TOKEN: ${{ secrets.ARSDEHNEL_GITHUB_TOKEN }}
 
@@ -91,13 +71,14 @@ jobs:
           GIT_COMMITTER_EMAIL: semantic-release-bot@users.noreply.github.com
           HUSKY: 0
 
-      - name: Restore branch protection
+      - name: Restore main ruleset to active
         if: always()
         run: |
-          curl -X PUT \
-            -H "Authorization: token $GITHUB_TOKEN" \
-            -H "Accept: application/vnd.github.v3+json" \
-            https://api.github.com/repos/${{ github.repository }}/branches/${{ github.ref_name }}/protection \
-            -d @/tmp/branch-protection.json
+          curl --fail-with-body -s -X PUT \
+            -H "Authorization: Bearer $GITHUB_TOKEN" \
+            -H "Accept: application/vnd.github+json" \
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            "https://api.github.com/repos/${{ github.repository }}/rulesets/$RULESET_ID" \
+            -d '{"enforcement":"active"}'
         env:
           GITHUB_TOKEN: ${{ secrets.ARSDEHNEL_GITHUB_TOKEN }}
