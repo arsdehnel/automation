@@ -18,5 +18,5 @@ variable "github_token" {
 variable "managed_repos" {
   description = "Repos that receive ARSDEHNEL_GITHUB_TOKEN. Add a repo here when you create it."
   type        = set(string)
-  default     = ["automation", "pov-builders"]
+  default     = ["automation", "pov-builders", "rwsdk-atp"]
 }
