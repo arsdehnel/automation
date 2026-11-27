@@ -44,9 +44,9 @@ jobs:
       - name: Generate backend config
         env:
           TOFU_STATE_KEY: ${{ inputs.app-name }}/${{ inputs.state-type }}/${{ inputs.state-name }}/terraform.tfstate
-          CF_R2_ACCESS_KEY_ID: ${{ secrets.CF_R2_ACCESS_KEY_ID }}
-          CF_R2_SECRET_KEY: ${{ secrets.CF_R2_SECRET_KEY }}
-          CF_ACCOUNT_ID: ${{ secrets.CF_ACCOUNT_ID }}
+          CF_R2_ACCESS_KEY_ID: ${{ secrets.ARSDEHNEL_CF_R2_ACCESS_KEY_ID }}
+          CF_R2_SECRET_KEY: ${{ secrets.ARSDEHNEL_CF_R2_SECRET_KEY }}
+          CF_ACCOUNT_ID: ${{ secrets.ARSDEHNEL_CLOUDFLARE_ACCOUNT_ID }}
         run: |
           cat > "${{ inputs.working-directory }}/backend.tf" <<EOF
           terraform {
