@@ -27,7 +27,7 @@ jobs:
       contents: read
       pull-requests: write
     env:
-      TF_VAR_platform_gh_token: ${{ secrets.PLATFORM_GH_TOKEN }}
+      TF_VAR_arsdehnel_github_token: ${{ secrets.ARSDEHNEL_GITHUB_TOKEN }}
       TF_VAR_repo_name: ${{github.event.repository.name}}
 
     steps:

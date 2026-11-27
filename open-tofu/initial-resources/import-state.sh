@@ -5,7 +5,7 @@ cd "$(dirname "$0")"
 
 if [[ ! -f "local.auto.tfvars" ]]; then
   echo "Error: local.auto.tfvars not found."
-  echo "Create it with cloudflare_account_id, cloudflare_api_token, and github_token before running this script."
+  echo "Create it with cloudflare_account_id, cloudflare_api_token, github_token, arsdehnel_github_token, and managed_repos before running this script."
   exit 1
 fi
 
@@ -27,7 +27,10 @@ fi
 tofu init
 tofu import cloudflare_r2_bucket.opentofu_remote_state "${ACCOUNT_ID}/${BUCKET_NAME}"
 tofu import cloudflare_account_token.cf_account_token "${CF_TOKEN_ID}"
-tofu import github_actions_secret.r2_access_key_id "${GITHUB_ORG}/automation/CF_R2_ACCESS_KEY_ID"
-tofu import github_actions_secret.r2_secret_key "${GITHUB_ORG}/automation/CF_R2_SECRET_KEY"
-tofu import github_actions_secret.cloudflare_account_id "${GITHUB_ORG}/automation/CF_ACCOUNT_ID"
-tofu import github_actions_secret.cloudflare_token "${GITHUB_ORG}/automation/CF_TOKEN"
+# All secrets are managed via for_each over managed_repos.
+# Import one line per repo per secret. Example for the default repos:
+# tofu import 'github_actions_secret.r2_access_key_id["automation"]'      "${GITHUB_ORG}/automation/CF_R2_ACCESS_KEY_ID"
+# tofu import 'github_actions_secret.r2_secret_key["automation"]'         "${GITHUB_ORG}/automation/CF_R2_SECRET_KEY"
+# tofu import 'github_actions_secret.cloudflare_account_id["automation"]' "${GITHUB_ORG}/automation/CF_ACCOUNT_ID"
+# tofu import 'github_actions_secret.cloudflare_token["automation"]'      "${GITHUB_ORG}/automation/CF_TOKEN"
+# tofu import 'github_actions_secret.arsdehnel_github_token["automation"]' "${GITHUB_ORG}/automation/ARSDEHNEL_GITHUB_TOKEN"

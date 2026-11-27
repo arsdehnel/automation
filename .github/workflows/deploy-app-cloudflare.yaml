@@ -4,7 +4,7 @@ on:
   workflow_call:
     inputs:
       tag:
-        description: 'Git tag to deploy (e.g. v1.2.3)'
+        description: "Git tag to deploy (e.g. v1.2.3)"
         required: true
         type: string
 
@@ -14,7 +14,6 @@ jobs:
     environment: integration
     permissions:
       contents: read
-      packages: read
 
     steps:
       - name: Checkout
@@ -29,20 +28,17 @@ jobs:
       - name: Set up Node
         uses: actions/setup-node@v7
         with:
-          node-version-file: '.nvmrc'
-          cache: 'pnpm'
-          registry-url: 'https://npm.pkg.github.com'
+          node-version-file: ".nvmrc"
+          cache: "pnpm"
 
       - name: Install dependencies
         run: pnpm install
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Deploy to Integration
         env:
           CLOUDFLARE_ENV: integration
-          CLOUDFLARE_API_TOKEN: ${{ secrets.CF_TOKEN }}
-          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CF_ACCOUNT_ID }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           VITE_APP_VERSION: ${{ inputs.tag }}
         run: pnpm run deploy
 
@@ -52,7 +48,6 @@ jobs:
     environment: staging
     permissions:
       contents: read
-      packages: read
 
     steps:
       - name: Checkout
@@ -67,20 +62,17 @@ jobs:
       - name: Set up Node
         uses: actions/setup-node@v7
         with:
-          node-version-file: '.nvmrc'
-          cache: 'pnpm'
-          registry-url: 'https://npm.pkg.github.com'
+          node-version-file: ".nvmrc"
+          cache: "pnpm"
 
       - name: Install dependencies
         run: pnpm install
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Deploy to Staging
         env:
           CLOUDFLARE_ENV: staging
-          CLOUDFLARE_API_TOKEN: ${{ secrets.CF_TOKEN }}
-          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CF_ACCOUNT_ID }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           VITE_APP_VERSION: ${{ inputs.tag }}
         run: pnpm run deploy
 
@@ -90,7 +82,6 @@ jobs:
     environment: production
     permissions:
       contents: read
-      packages: read
 
     steps:
       - name: Checkout
@@ -105,19 +96,16 @@ jobs:
       - name: Set up Node
         uses: actions/setup-node@v7
         with:
-          node-version-file: '.nvmrc'
-          cache: 'pnpm'
-          registry-url: 'https://npm.pkg.github.com'
+          node-version-file: ".nvmrc"
+          cache: "pnpm"
 
       - name: Install dependencies
         run: pnpm install
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Deploy to Production
         env:
           CLOUDFLARE_ENV: production
-          CLOUDFLARE_API_TOKEN: ${{ secrets.CF_TOKEN }}
-          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CF_ACCOUNT_ID }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           VITE_APP_VERSION: ${{ inputs.tag }}
         run: pnpm run deploy

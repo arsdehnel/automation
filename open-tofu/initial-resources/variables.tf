@@ -10,7 +10,13 @@ variable "cloudflare_account_id" {
 }
 
 variable "github_token" {
-  description = "GitHub token with org admin permissions to manage secrets"
+  description = "Classic PAT with admin:org scope — used by the Terraform provider itself"
   type        = string
   sensitive   = true
+}
+
+variable "managed_repos" {
+  description = "Repos that receive ARSDEHNEL_GITHUB_TOKEN. Add a repo here when you create it."
+  type        = set(string)
+  default     = ["automation", "pov-builders"]
 }

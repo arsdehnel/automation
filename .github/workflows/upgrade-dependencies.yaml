@@ -1,7 +1,7 @@
 name: Upgrade Dependencies
 
 on:
-  workflow_call:      
+  workflow_call:
 
 jobs:
   upgrade-dependencies:
@@ -9,15 +9,13 @@ jobs:
     steps:
       - uses: actions/checkout@v7
 
-      - uses: renovatebot/github-action@v46.3.9
+      - uses: renovatebot/github-action@v46.3.7
         with:
-          token: ${{ secrets.PLATFORM_GH_TOKEN }}
+          token: ${{ secrets.ARSDEHNEL_GITHUB_TOKEN }}
         env:
           RENOVATE_CI: true
           RENOVATE_GIT_AUTHOR: "Renovate Bot <renovate[bot]@users.noreply.github.com>"
-          RENOVATE_HOST_RULES: '[{"matchHost":"npm.pkg.github.com","hostType":"npm","token":"${{ secrets.PLATFORM_GH_TOKEN }}"}]'
           RENOVATE_ONBOARDING: "false"
           RENOVATE_REPOSITORIES: ${{ github.repository }}
           LOG_LEVEL: debug
           CI: "true"
-

@@ -13,7 +13,6 @@ jobs:
       contents: write
       issues: write
       pull-requests: write
-      packages: read
 
     steps:
       - name: Checkout
@@ -28,14 +27,11 @@ jobs:
       - name: Set up Node
         uses: actions/setup-node@v7
         with:
-          node-version-file: '.nvmrc'
-          cache: 'pnpm'
-          registry-url: 'https://npm.pkg.github.com'
+          node-version-file: ".nvmrc"
+          cache: "pnpm"
 
       - name: Install dependencies
         run: pnpm install
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Collect branch protection rules
         run: |
@@ -63,7 +59,7 @@ jobs:
               block_creations: .block_creations.enabled
             }' > /tmp/branch-protection.json
         env:
-          GITHUB_TOKEN: ${{ secrets.PLATFORM_GH_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.ARSDEHNEL_GITHUB_TOKEN }}
 
       - name: Disable branch protection
         run: |
@@ -73,7 +69,7 @@ jobs:
             https://api.github.com/repos/${{ github.repository }}/branches/${{ github.ref_name }}/protection \
             -d '{"restrictions":null,"required_status_checks":null,"enforce_admins":false,"required_pull_request_reviews":null}'
         env:
-          GITHUB_TOKEN: ${{ secrets.PLATFORM_GH_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.ARSDEHNEL_GITHUB_TOKEN }}
 
       - name: Create release
         run: |
@@ -88,7 +84,7 @@ jobs:
             --package=conventional-changelog-conventionalcommits@9 \
             semantic-release
         env:
-          GITHUB_TOKEN: ${{ secrets.PLATFORM_GH_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.ARSDEHNEL_GITHUB_TOKEN }}
           GIT_AUTHOR_NAME: semantic-release-bot
           GIT_AUTHOR_EMAIL: semantic-release-bot@users.noreply.github.com
           GIT_COMMITTER_NAME: semantic-release-bot
@@ -104,4 +100,4 @@ jobs:
             https://api.github.com/repos/${{ github.repository }}/branches/${{ github.ref_name }}/protection \
             -d @/tmp/branch-protection.json
         env:
-          GITHUB_TOKEN: ${{ secrets.PLATFORM_GH_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.ARSDEHNEL_GITHUB_TOKEN }}

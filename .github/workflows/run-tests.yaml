@@ -6,30 +6,19 @@ on:
       working-directory:
         type: string
         required: false
-        default: '.'
-      artifact-paths:
-        type: string
-        required: false
-        default: 'test-reports/'
+        default: "."
 
 jobs:
   run-tests:
     runs-on: ubuntu-latest
-    container:
-      image: mcr.microsoft.com/playwright:v1.63.0-noble
     timeout-minutes: 60
     permissions:
       contents: read
-      packages: read
 
     steps:
-      - name: Install git-lfs
-        run: apt-get update && apt-get install -y git-lfs
-
       - name: Checkout
         uses: actions/checkout@v7
         with:
-          lfs: true
           persist-credentials: false
 
       - name: Set up pnpm
@@ -38,23 +27,12 @@ jobs:
       - name: Set up Node
         uses: actions/setup-node@v7
         with:
-          node-version-file: '.nvmrc'
-          cache: 'pnpm'
-          registry-url: 'https://npm.pkg.github.com'
+          node-version-file: ".nvmrc"
+          cache: "pnpm"
 
       - name: Install dependencies
         run: pnpm install
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Run repo tests command
-        run: pnpm ci:tests
         working-directory: ${{ inputs.working-directory }}
-        env:
-          HOME: /root
-
-      - uses: actions/upload-artifact@v7
-        with:
-          name: test-reports
-          path: ${{ inputs.artifact-paths }}
-          retention-days: 30
+        run: pnpm ci:tests

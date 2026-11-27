@@ -6,14 +6,13 @@ on:
       working-directory:
         type: string
         required: false
-        default: '.'
+        default: "."
 
 jobs:
   lint-code:
     runs-on: ubuntu-latest
     permissions:
       contents: read
-      packages: read
 
     steps:
       - name: Checkout
@@ -27,16 +26,12 @@ jobs:
       - name: Set up Node
         uses: actions/setup-node@v7
         with:
-          node-version-file: '.nvmrc'
-          cache: 'pnpm'
-          registry-url: 'https://npm.pkg.github.com'
+          node-version-file: ".nvmrc"
+          cache: "pnpm"
 
       - name: Install dependencies
         run: pnpm install
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Run repo lint command
         working-directory: ${{ inputs.working-directory }}
         run: pnpm ci:lint
-        
