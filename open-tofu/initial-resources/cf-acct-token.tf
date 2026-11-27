@@ -9,7 +9,7 @@ resource "cloudflare_account_token" "cf_account_token" {
       { id = data.external.cf_permission_groups.result.r2_bucket_item_write },
       { id = data.external.cf_permission_groups.result.secrets_store_read },
       { id = data.external.cf_permission_groups.result.workers_admin },
-      { id = data.external.cf_permission_groups.result.d1_read },
+      { id = data.external.cf_permission_groups.result.d1_write },
     ]
     resources = jsonencode({
       "com.cloudflare.api.account.${var.cloudflare_account_id}" = "*"
