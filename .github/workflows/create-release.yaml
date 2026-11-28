@@ -10,7 +10,8 @@ jobs:
       group: create-release
       cancel-in-progress: false
     permissions:
-      contents: write
+      contents: read
+      packages: read
       issues: write
       pull-requests: write
 
